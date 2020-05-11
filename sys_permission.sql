@@ -1,0 +1,4 @@
+ALTER TABLE `sys_permission` 
+MODIFY COLUMN `principal_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '授权主体类型，如组织、角色、用户、数据权限等。详见字典项 principal_type 。' AFTER `target_key`,
+MODIFY COLUMN `principal_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '授权主体类型的键。\r\n对于用户、组织、角色类型的授权主体，key默认为“seq”字符串；\r\n对于数据权限类型的授权主体，key为该角色数据权限的唯一标识（即：sys_authority_dataperm.seq的值）。\r\n同一行记录里多个授权主体为与关系，用分号分隔，授权主体键与授权主体值按序对应；\r\n不同行相同target_key的授权记录为或关系。\r\n如：A;B\r\n' AFTER `principal_type`,
+MODIFY COLUMN `principal_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '授权主体值，与授权主体键一一对应。\r\n多个键对应的值用分号分隔；\r\n如：a1;b1' AFTER `principal_key`;
