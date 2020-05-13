@@ -1,5 +1,13 @@
 # My Clock
 
+## 2020/05/12
+
+Content | Duration | Complished | Memo
+-- | -- | -- | --
+debug ribbon client of zuul, try proxing via url | 45 | serviceId换成大写的以后可以查找到服务了，但是接口会报404
+和新月讨论iam | 45 | Y |
+debug ribbon client of zuul，解决接口404的问题 | 45 |
+
 ## 2020/05/11
 
 Content | Duration | Complished | Memo

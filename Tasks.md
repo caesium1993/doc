@@ -6,10 +6,10 @@
 
 - egov-sso模块拆分
 - Eureka及Zuul集成环境集群部署
-
+- Ribbon负载均衡的学习
 - Spring Cloud Security学习
 - 微服务架构迁移的整体方案细化
-- Spring Cloud Consul+Gateway 学习及本地搭建
+- (*) Spring Cloud Consul+Gateway 学习及本地搭建
 
 ## BUG
 
