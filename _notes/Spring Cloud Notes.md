@@ -1,5 +1,52 @@
 # Spring Cloud Notes
 
+## Eureka
+
+### Overview
+
+- 服务注册中心，Eureka Server(记录服务的注册表，监控服务的健康)、Eureka Instance(service provider)、Eureka Client(service consumer)
+- *？？？几个关键的概念：Env、Region、Zone、Data Center等*
+
+### Service Registry
+
+- 几个关键属性的默认值
+  - appName（serviceId）= ${spring.application.name}
+  - virtual host = ${spring.application.name}
+  - non-secure port = ${server.port}
+
+- heath check
+  - 注册成功后的Service默认status一直是UP
+  - eureka.client.healthcheck.enabled=true必须在applcation.properties中配置才能正常生效
+- 应用集群部署的时候，每个instance有独特的intanceId，默认的取值是${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${s
+erver.port}}}
+
+### Service Discovery
+
+- 在程序里引用EurekaClient
+
+```java
+@Autowired
+private EurekaClient discoveryClient;
+public String serviceUrl() {
+InstanceInfo instance = discoveryClient.getNextServerFromEureka("STORES", false);
+return instance.getHomePageUrl();
+}
+```
+
+- client总是优先选择same zone的eureka server的服务注册表，instance在注册服务的时候通过metadata指定自己的service在哪个zone是可用的
+
+```java
+eureka.instance.metadataMap.zone = zone2
+eureka.client.preferSameZoneEureka = true
+```
+
+- 通过集成Spring Cloud LoadBalancer做到多zone服务的负载均衡
+  - 这块讲的比较笼统，目前还没想到应用场景
+
+### Eureka Server
+
+- Http API endpoints: "/eureka/*"
+
 ## Zuul
 
 ### Zuul Proxy
@@ -115,3 +162,17 @@ sample-client.ribbon.listOfServers=www.microsoft.com:80,www.yahoo.com:80,www.goo
 ribbon.eager-load.enabled=true
 ribbon.eager-load.clients=client1, client2, client3
 ```
+
+## Spring Cloud LoadBalancer
+
+- 可以使用Sring RestTemplate
+
+### Spring Cloud LoadBalancer integrations
+
+- client-side LB, zuul等组件集成的时候默认使用的ribbon，可以设置使用Spring Cloud LoadBalancer
+
+### Caching
+
+- 支持caffeine/default
+- spring.cloud.loadbalancer.cache.enabled = true
+
