@@ -1,5 +1,12 @@
 # My Clock
 
+## 2020/05/18
+
+Content | Duration | Complished | Memo
+-- | -- | -- | --
+看完zuul整合spring cloud security配置的文章，试图通过画图的方式来深度理解Oath2在微服务中的应用 | 45 | 对于Oauth2流程有疑问，如何完成向用户索要授权的，谁及如何传递clientId给授权中心的，认证中心和授权中心的关系 | Y 
+带走问题看下具体配置的教程，看看有没有思路 | 45 |
+
 ## 2020/05/14
 
 Content | Duration | Complished | Memo

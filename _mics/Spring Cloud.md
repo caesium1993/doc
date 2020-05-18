@@ -5,50 +5,60 @@
 - 微服务架构是一种架构模式或者说是一种架构风格，它提倡将单一应用程序划分成一组小的服务，每个服务运行在其独立的自己的进程中，服务之间互相协调、互相配合，为用户提供最终价值。服务之间采用轻量级的通信机制互相沟通（通常是基于HTTP的RESTful API）。
 - Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线）。
 
+## 设计原则
+  - 兼容门户现有的各系统现状，不影响未集成进微服务的生态的外部应用
+  - 兼容后续监管云、容器云和devops
+
 ## 工作内容
 
 - 微服务核心组件的研究及搭建
 
-  - 注册中心的搭建：
-    - Eureka vs Spring Cloud Consul 技术选型
-    - 实现服务的注册和发现
-    - 集群化部署的方案
+  - Zuul路由网关
+    - Zuul集群部署，并和nginx配合完成zuul的集群负载均衡
+    - 2个Zuul节点
+
+  - Eureka：
+    - 目标：实现注册中心与应用的集群部署，完成服务的注册和发现
+    - 3个Eureka Server节点
     - 注册服务的汇总
 
-  - Ribbon实现负载均衡：
+  - Spring Cloud LB实现负载均衡：
     - Ribbon结合Eureka实现负载均衡的解决方案
     - IRule-LB算法的学习，自定义策略的使用
     - 典型场景的汇总，及不同场景的策略应用
-    - 业务应用的集群部署
-    - **会话保持（redis）**
-    - 结合当前会内运维情况制定合理的方案
-      - 取代Nginx的负载均衡方案
+    - 会话保持（redis）
 
-  - Feign结合Ribbon实现动态的请求发送
+  - LB RestTemplate实现动态的请求发送
     - 场景的汇总
-    - 应用场景重构工作的安排
-
-  - Hystrix实现熔断和降级(*)
-    - 场景的汇总
-    - 应用场景重构工作的安排
-    - Hystrix DashBoard VS Spring Boot Admin
-
-  - Zuul / Gateway路由网关
-    - Zuul和Spring Cloud Gateway的技术选型
-    - 集群部署
-    - cookie的
-    - Gateway整合Hystrix实现应用的熔断降级
-    - Gateway重试机制
-    - 结合会内运维情况指定合理的方案
-      - 大Nginx->Gateway实现路由
-
-  - Spring Cloud Config和Spring Cloud Bus (*)
-    - 实现热部署
-    - 与git的整合
+    - RestTemplate多实例的问题
 
 - 资源申请配置
 
 - 门户相关项目的迁移与重构
+
+## 任务
+
+- 完成Eureka Server、Zuul Server集成环境的集群部署
+- 完成portal、sso、egov、iam、message等服务集成Eureka、Zuul的改造和联调
+  - 需在集成新建一个portal_dev_replicas，在此进行联调测试。因为涉及到appUri的变动
+- 完成portal、sso、egov、iam、message等服务集成Spring Cloud LB、LB RestTemplate的改造和联调
+  - 在portal_dev_replicas数据库上进行调试
+  - 梳理所有业务场景，进行分类：无状态/有状态、可以实现LB的接口/必须通过访问url交互的接口
+  - 注意LB RestTemplate、RestTemplate双实例同时存在的问题
+  - 优先完成restfulless的交互改造
+  - 应充分考虑到重试、熔栽等情况下上层业务的兼容问题
+- 实现基于Redis的会话保持、共享存储
+  - 解决Spring Session在Redis存储介质中无法正常读取attributes的问题
+  - 完成portal、sso、iam等服务的redis改造
+- 微服务身份认证问题的两种方案
+  - 方案一：Zuul+Spring Cloud Security，在网关上实现身份认证
+  - 方案二：各应用保持自己的身份认证，但必须基于redis实现会话保持等
+- 测试与部署相关问题：
+  - 资源的申请
+  - docker部署
+  - 提前沟通仿真/生产可能存在的运维工作
+    - nginx配置的更改：nginx转发至各app -> nginx转发至zuul，zuul实现app的路由分发
+  - 压力、功能测试
 
 ## 时间安排
 
@@ -67,6 +77,15 @@
   - 集成初版部署 5月15日
   - 仿真部署 5月25日
   - 生产部署 5月27日
+
+## 参考文档
+
+- [baeldung-spring cloud series](https://www.baeldung.com/spring-cloud-series)
+- [spring cloud reference](https://cloud.spring.io/spring-cloud-static/Hoxton.SR3/reference/html/documentation-overview.html#contract-documentation)
+- [中文版Spring Cloud Hoxton版本入门教程](https://blog.csdn.net/ThinkWon/article/details/103738851/)
+- [Eureka Client Properties](https://github.com/spring-cloud/spring-cloud-netflix/blob/master/spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaClientConfigBean.java)
+- [Eureka Instance Properties](https://github.com/spring-cloud/spring-cloud-netflix/blob/master/spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaInstanceConfigBean.java)
+- github 各组件的项目
 
 ## 重点关注及问题
 

@@ -127,7 +127,7 @@ sample-client.ribbon.listOfServers=www.microsoft.com:80,www.yahoo.com:80,www.goo
   - integrate with EurekaClient.
   - pre-requirements：
     - **启用DiscoveryEnabledNIWSServerList**
-    - **sevice provider必须在eureka server注册vipAddress**
+    - **sevice provider必须在eureka server注册vipAddress(logical eureka service identifier)**
   - server cluster must be identified via VipAddress in a property:
 
   ```java
