@@ -78,8 +78,8 @@ return new PatternServiceRouteMapper(
 
 - 管理请求的prefix
   - zuul默认会在转发请求前把proxy prefix从请求路径中去掉。```java zuul.routes.users.stripPrefix=false```
+    - #BUG 搭建demo的时候，zuul负载均衡请求总是404就是因为默认把/demo-app当做prefix从请求路径中去掉了，所以404
   - 给请求设置通用的前缀 ```java zuul.prefix=/api```
-  - **【巧用prefix的例子】如何实现actuator endpoints的对外/内不同的访问控制？** <br> 在zuul上对/actuctor/**请求加上前缀/admin，从而使得外部的请求必须具有admin权限的用户才能访问，而内部的请求不经过zuul，从而避免了登录认证，如springboot-admin-server和各个client间的通信
 
 ## Ribbon
 
