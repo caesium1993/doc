@@ -1,5 +1,12 @@
 # My Clock
 
+## 2020/05/25
+
+Content | Duration | Complished | Memo
+-- | -- | -- | --
+监管主体分级授权场景梳理 | 45 | Y |
+按照场景过一遍实现和配置的流程，完善iam的设计 | 45 |
+
 ## 2020/05/21
 
 Content | Duration | Complished | Memo
@@ -16,7 +23,7 @@ Content | Duration | Complished | Memo
 
 Content | Duration | Complished | Memo
 -- | -- | -- | --
-看完zuul整合spring cloud security配置的文章，试图通过画图的方式来深度理解Oath2在微服务中的应用 | 45 | 对于Oauth2流程有疑问，如何完成向用户索要授权的，谁及如何传递clientId给授权中心的，认证中心和授权中心的关系 | Y 
+看完zuul整合spring cloud security配置的文章，试图通过画图的方式来深度理解Oauth2在微服务中的应用 | 45 | 对于Oauth2流程有疑问，如何完成向用户索要授权的，谁及如何传递clientId给授权中心的，认证中心和授权中心的关系 | Y 
 带走问题看下具体配置的教程，看看有没有思路 | 45 | Y |搞清楚了Oauth2的authorization code认证方式的流程，清楚了微服务各组件及应用在其中扮演的角色
 
 ## 2020/05/14
